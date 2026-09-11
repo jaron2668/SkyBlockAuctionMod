@@ -6,7 +6,7 @@
     "description": "TODO Enter description",
     "authors": ["jaron2668"],
     "contact": {},
-    "license": "CC0-1.0",
+    "license": "TODO ENTER LICENSE",
     "icon": "assets/skyblock-auction-mod/icon.png",
     "environment": "*",
     "entrypoints": {
@@ -16,6 +16,7 @@
     "depends": {
         "fabricloader": ">=0.19.5",
         "minecraft": "~26.1.2",
-        "java": ">=25"
+        "java": ">=25",
+        "fabric-api": "*"
     }
 }

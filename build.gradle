@@ -1,9 +1,11 @@
 plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+    id 'com.github.jk1.dependency-license-report' version '3.1.4'
 }
 
 repositories {
+	mavenLocal()
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
@@ -25,10 +27,17 @@ loom {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
-	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+	clientImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    clientImplementation "org.apache.kafka:kafka-clients:4.0.0"
+    clientImplementation "io.github.jaron2668:SkyBlockSharedModels:1.0-SNAPSHOT"
+    clientImplementation "com.fasterxml.jackson.core:jackson-databind:2.17.2"
+    clientImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2"
+    clientImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
-	// Fabric API. This is technically optional, but you probably want it anyway.
-	implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    include "org.apache.kafka:kafka-clients:4.0.0"
+    include "io.github.jaron2668:SkyBlockSharedModels:1.0-SNAPSHOT"
+    include "com.fasterxml.jackson.core:jackson-databind:2.17.2"
+    include "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2"
 }
 
 processResources {
@@ -61,6 +70,25 @@ jar {
 	from("LICENSE") {
 		rename { "${it}_$projectName"}
 	}
+}
+
+// Generate a third-party license report.
+licenseReport {
+    outputDir = layout.buildDirectory.dir("licenses").get().asFile
+
+    renderers = [
+        new com.github.jk1.license.render.TextReportRenderer(
+            "THIRD-PARTY-LICENSES.txt"
+        )
+    ]
+}
+// Include the generated third-party license file in the final JAR.
+tasks.named("jar") {
+    dependsOn tasks.named("generateLicenseReport")
+
+    from(layout.buildDirectory.file("licenses/THIRD-PARTY-LICENSES.txt")) {
+        into("")
+    }
 }
 
 // configure the maven publication
