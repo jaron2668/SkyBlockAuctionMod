@@ -1,0 +1,21 @@
+{
+    "schemaVersion": 1,
+    "id": "skyblock-auction-mod",
+    "version": "${version}",
+    "name": "SkyBlock Auction Mod",
+    "description": "TODO Enter description",
+    "authors": ["jaron2668"],
+    "contact": {},
+    "license": "CC0-1.0",
+    "icon": "assets/skyblock-auction-mod/icon.png",
+    "environment": "*",
+    "entrypoints": {
+        "client": ["io.github.jaron2668.client.SkyBlockAuctionModClient"]
+    },
+    "mixins": ["skyblock-auction-mod.mixins.json"],
+    "depends": {
+        "fabricloader": ">=0.19.5",
+        "minecraft": "~26.1.2",
+        "java": ">=25"
+    }
+}
