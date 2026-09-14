@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 public final class KafkaFlipConsumer {
@@ -47,6 +48,7 @@ public final class KafkaFlipConsumer {
      */
     private volatile KafkaConsumer<String, String> consumer;
     private volatile boolean running;
+    private volatile boolean chatMessagesEnabled = true;
     private Thread consumerThread;
 
     public void start() {
@@ -98,7 +100,7 @@ public final class KafkaFlipConsumer {
      * Processes the flip queue and prints to minecraft chat
      */
     public void drainMessages(Minecraft client) {
-        if (client.player == null) {
+        if (!chatMessagesEnabled || client.player == null) {
             return;
         }
 
@@ -109,8 +111,23 @@ public final class KafkaFlipConsumer {
                 break;
             }
 
-            client.player.displayClientMessage(createChatMessage(flip), false);
+            client.gui.getChat().addPlayerMessage(createChatMessage(flip), null, null);
         }
+    }
+
+    /**
+     * Toggles whether consumed flips are displayed in Minecraft chat.
+     *
+     * @return the new enabled state
+     */
+    public boolean toggleChatMessages() {
+        chatMessagesEnabled = !chatMessagesEnabled;
+
+        if (!chatMessagesEnabled) {
+            messages.clear();
+        }
+
+        return chatMessagesEnabled;
     }
 
     /**
@@ -156,6 +173,9 @@ public final class KafkaFlipConsumer {
      * @param payload the serialized {@link Flip}
      */
     private void parseFlip(String payload) {
+        if (!chatMessagesEnabled) { // don't insert into queue while chat messages are disabled
+            return;
+        }
         try {
             Flip flip = OBJECT_MAPPER.readValue(payload, Flip.class);
             if (!messages.offer(flip)) {

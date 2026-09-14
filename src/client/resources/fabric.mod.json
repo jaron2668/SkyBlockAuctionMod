@@ -12,7 +12,6 @@
     "entrypoints": {
         "client": ["io.github.jaron2668.client.SkyBlockAuctionModClient"]
     },
-    "mixins": ["skyblock-auction-mod.mixins.json"],
     "depends": {
         "fabricloader": ">=0.19.5",
         "minecraft": "~26.1.2",
