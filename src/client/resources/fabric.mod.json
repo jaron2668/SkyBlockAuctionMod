@@ -5,8 +5,10 @@
     "name": "SkyBlock Auction Mod",
     "description": "TODO Enter description",
     "authors": ["jaron2668"],
-    "contact": {},
-    "license": "TODO ENTER LICENSE",
+    "contact": {
+        "sources": "https://github.com/jaron2668/SkyBlockAuctionMod"
+    },
+    "license": "GPL-3.0-only",
     "icon": "assets/skyblock-auction-mod/icon.png",
     "environment": "*",
     "entrypoints": {
