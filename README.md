@@ -17,18 +17,8 @@ This Fabric client mod displays new flip recommendations from the Hypixel SkyBlo
 -   Fabric API `0.155.3+26.1.2`
 -   Java 25 or newer
 -   A running Kafka-compatible broker such as Redpanda
--   The locally installed artifact `io.github.jaron2668:SkyBlockSharedModels:1.0-SNAPSHOT`
 
 The mod is intended for client use. The Kafka broker must be reachable from the Minecraft process.
-
-## Install Shared Models
-
-The mod uses the shared Java models to deserialize `Flip` messages. Install the artifact in the local Maven repository first:
-
-```bash
-cd lib/skyblock-shared-models
-mvn clean install
-```
 
 ## Build the Mod
 
