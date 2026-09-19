@@ -6,12 +6,12 @@ plugins {
 }
 
 repositories {
-	mavenLocal()
 	// Add repositories to retrieve artifacts from in here.
 	// You should only use this when depending on other mods because
 	// Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
+    maven { url 'https://jitpack.io' }
 }
 
 loom {
@@ -30,13 +30,13 @@ dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	clientImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     clientImplementation "org.apache.kafka:kafka-clients:4.0.0"
-    clientImplementation "io.github.jaron2668:SkyBlockSharedModels:1.0-SNAPSHOT"
+    clientImplementation "com.github.jaron2668:SkyBlockSharedModels:v1.0.0"
     clientImplementation "com.fasterxml.jackson.core:jackson-databind:2.17.2"
     clientImplementation "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2"
     clientImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     include "org.apache.kafka:kafka-clients:4.0.0"
-    include "io.github.jaron2668:SkyBlockSharedModels:1.0-SNAPSHOT"
+    include "com.github.jaron2668:SkyBlockSharedModels:v1.0.0"
     include "com.fasterxml.jackson.core:jackson-databind:2.17.2"
     include "com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.17.2"
 }
@@ -79,7 +79,7 @@ licenseReport {
 
     renderers = [
         new com.github.jk1.license.render.TextReportRenderer(
-            "THIRD-PARTY-LICENSES.txt"
+            "THIRD-PARTY-NOTICES.txt"
         )
     ]
 }
@@ -87,8 +87,14 @@ licenseReport {
 tasks.named("jar") {
     dependsOn tasks.named("generateLicenseReport")
 
-    from(layout.buildDirectory.file("licenses/THIRD-PARTY-LICENSES.txt")) {
-        into("")
+    from(layout.buildDirectory.file("licenses/THIRD-PARTY-NOTICES.txt")) {
+        into("META-INF")
+    }
+
+    from(layout.buildDirectory.dir("licenses")) {
+        into("META-INF/licenses")
+        include("**/*")
+        exclude("THIRD-PARTY-NOTICES.txt")
     }
 }
 spotless {
