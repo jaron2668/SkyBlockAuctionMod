@@ -1,3 +1,8 @@
+![Java Version](https://img.shields.io/badge/Java-25+-orange)
+![Build](https://github.com/jaron2668/SkyBlockAuctionMod/actions/workflows/build.yml/badge.svg)
+![Release](https://img.shields.io/github/v/release/jaron2668/SkyBlockAuctionMod)
+![License](https://img.shields.io/badge/License-GPLv3--only-blue)
+
 # SkyBlock Auction Mod
 
 This Fabric client mod displays new flip recommendations from the Hypixel SkyBlock auction system directly in Minecraft chat. It consumes Kafka messages published by the flipper service and provides a clickable link to the corresponding auction house listing for each flip. The mod connects to Kafka when the client starts and shuts down the consumer gracefully when the client exits.
